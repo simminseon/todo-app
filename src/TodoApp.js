@@ -9,40 +9,67 @@ const initialData = [
   { id: 3, text: "임시 데이터3", checked: false },
 ];
 
+function createBulkTodos() {
+  const array = [];
+  for (let i = 1; i <= 2500; i++) {
+    array.push({
+      id: i,
+      text: `할 일${i}`,
+      checked: false,
+    });
+  }
+  return array;
+}
+
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case "INSERT":
+      return todos.concat(action.todo);
+    case "REMOVE":
+      return todos.filter((todo) => todo.id !== action.id);
+    case "TOGGLE":
+      return todos.map((todo) => {
+        return todo.id === action.id
+          ? { ...todo, checked: !todo.checked }
+          : todo;
+      });
+    default:
+      return todos;
+  }
+}
+
 const TodoApp = () => {
-  const [todos, setTodos] = React.useState(initialData);
-  const nextId = React.useRef(4);
-
-  const onInsert = React.useCallback(
-    (text) => {
-      const todo = {
-        id: nextId.current,
-        text,
-        checked: false,
-      };
-      setTodos(todos.concat(todo));
-      nextId.current += 1;
-    },
-    [todos]
+  // const [todos, setTodos] = React.useState(createBulkTodos);
+  const nextId = React.useRef(2051);
+  const [todos, dispatch] = React.useReducer(
+    todoReducer,
+    undefined,
+    createBulkTodos
   );
 
-  const onToggle = React.useCallback(
-    (id) => {
-      setTodos(
-        todos.map((todo) => {
-          return todo.id === id ? { ...todo, checked: !todo.checked } : todo;
-        })
-      );
-    },
-    [todos]
-  );
+  const onInsert = React.useCallback((text) => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    dispatch({ type: "INSERT", todo });
+    // setTodos((todos) => todos.concat(todo));
+    nextId.current += 1;
+  }, []);
 
-  const onRemove = React.useCallback(
-    (id) => {
-      setTodos(todos.filter((todo) => todo.id !== id));
-    },
-    [todos]
-  );
+  const onToggle = React.useCallback((id) => {
+    dispatch({ type: "TOGGLE", id });
+    // setTodos(
+    // todos.map((todo) => {
+    //   return todo.id === id ? { ...todo, checked: !todo.checked } : todo;
+    // }));
+  }, []);
+
+  const onRemove = React.useCallback((id) => {
+    dispatch({ type: "REMOVE", id });
+    // setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  }, []);
 
   return (
     <TodoTemplate>
