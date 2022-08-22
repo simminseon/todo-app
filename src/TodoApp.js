@@ -8,19 +8,6 @@ const initialData = [
   { id: 2, text: "임시 데이터2", checked: false },
   { id: 3, text: "임시 데이터3", checked: false },
 ];
-
-function createBulkTodos() {
-  const array = [];
-  for (let i = 1; i <= 2500; i++) {
-    array.push({
-      id: i,
-      text: `할 일${i}`,
-      checked: false,
-    });
-  }
-  return array;
-}
-
 function todoReducer(todos, action) {
   switch (action.type) {
     case "INSERT":
@@ -40,12 +27,8 @@ function todoReducer(todos, action) {
 
 const TodoApp = () => {
   // const [todos, setTodos] = React.useState(createBulkTodos);
-  const nextId = React.useRef(2051);
-  const [todos, dispatch] = React.useReducer(
-    todoReducer,
-    undefined,
-    createBulkTodos
-  );
+  const nextId = React.useRef(4);
+  const [todos, dispatch] = React.useReducer(todoReducer, initialData);
 
   const onInsert = React.useCallback((text) => {
     const todo = {
