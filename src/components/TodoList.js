@@ -2,7 +2,7 @@ import React from "react";
 import TodoListItem from "./TodoListItem";
 import "./TodoList.scss";
 
-const TodoList = ({ todos, onClickCheck, onCheckRemove }) => {
+const TodoList = ({ todos, onToggle, onRemove }) => {
   return (
     <div className="TodoList">
       {todos.map((todo) => {
@@ -10,8 +10,8 @@ const TodoList = ({ todos, onClickCheck, onCheckRemove }) => {
           <TodoListItem
             todo={todo}
             key={todo.id}
-            onClickCheck={() => onClickCheck(todo)}
-            onCheckRemove={() => onCheckRemove(todo)}
+            onToggle={onToggle}
+            onRemove={onRemove}
           />
         );
       })}
