@@ -36,6 +36,9 @@ const TodoApp = () => {
       text,
       checked: false,
     };
+    if (text === "") {
+      return alert("할 일을 입력하세요!");
+    }
     dispatch({ type: "INSERT", todo });
     // setTodos((todos) => todos.concat(todo));
     nextId.current += 1;
@@ -55,7 +58,7 @@ const TodoApp = () => {
   }, []);
 
   return (
-    <TodoTemplate>
+    <TodoTemplate todos={todos}>
       <TodoInsert onInsert={onInsert} />
       <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
     </TodoTemplate>

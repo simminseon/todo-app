@@ -8,14 +8,34 @@
   overflow: hidden;
 
   .app-title {
+    padding: 10px 0;
     background: #22b8cf;
     color: white;
-    height: 4rem;
-    font-size: 1.5rem;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    .date {
+      font-size: 1.3rem;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 10px 0 0;
+      font-size: 1.5rem;
+    }
   }
+
+  .app-desc {
+    padding: 10px;
+    font-weight: bold;
+    color: #22b8cf;
+    text-align: right;
+    background-color: white;
+  }
+
   .content {
     background: white;
   }
